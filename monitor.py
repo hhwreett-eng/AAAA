@@ -512,28 +512,90 @@ def build_report(
     generated_at: dt.datetime,
 ) -> str:
     settings = config.get("settings", {})
-    title = settings.get("report_title", "Tech Influencer Daily Monitor")
+    title_en = settings.get("report_title", "Tech Creator Daily Monitor")
+    title_cn = "科技博主日报"
+    title = f"{title_cn} / {title_en}"
+
+    total_active_creators = len(config.get("creators", []))
+    total_sources = sum(len(c.get("sources", [])) for c in config.get("creators", []))
+    all_keywords = list(settings.get("keywords", []))
+
     lines: list[str] = [
         f"# {title}",
         "",
-        f"- Generated: {format_dt(generated_at)}",
-        f"- New items: {len(items)}",
+        f"- Generated / 生成时间: {format_dt(generated_at)}",
+        f"- New items / 新增条目: {len(items)}",
         "",
     ]
 
+    # ─── Chinese Summary ───
+    lines.extend(["## 中文摘要", ""])
+    if not items:
+        lines.append("本轮监控未发现新的关键词匹配条目。")
+        lines.append("")
+    else:
+        keyword_items = [item for item in items if item.matched_keywords]
+        lines.append(f"本轮新增 **{len(items)}** 条，其中 **{len(keyword_items)}** 条触发关键词匹配。")
+        lines.append("")
+
+        # Per-creator summary
+        creator_counts: dict[str, int] = {}
+        for item in items:
+            creator_counts[item.creator] = creator_counts.get(item.creator, 0) + 1
+        lines.append("各博主新增分布：")
+        for creator, count in sorted(creator_counts.items(), key=lambda x: -x[1]):
+            lines.append(f"- {creator}: {count} 条")
+        lines.append("")
+
+        # Top keywords
+        kw_counter: dict[str, int] = {}
+        for item in keyword_items:
+            for kw in item.matched_keywords:
+                kw_counter[kw] = kw_counter.get(kw, 0) + 1
+        top_kw = sorted(kw_counter.items(), key=lambda x: -x[1])[:8]
+        if top_kw:
+            lines.append("高频关键词：")
+            for kw, cnt in top_kw:
+                lines.append(f"- `{kw}`: {cnt} 次")
+            lines.append("")
+
+        # Source types
+        source_types: dict[str, int] = {}
+        for item in items:
+            st = item.source_type or "unknown"
+            source_types[st] = source_types.get(st, 0) + 1
+        lines.append("来源类型分布：")
+        for st, cnt in sorted(source_types.items(), key=lambda x: -x[1]):
+            lines.append(f"- {st}: {cnt}")
+        lines.append("")
+
+    # ─── English Summary ───
+    lines.extend(["## English Summary", ""])
+    if not items:
+        lines.append("No new keyword-matched items detected this run.")
+        lines.append("")
+    else:
+        kw_it = [item for item in items if item.matched_keywords]
+        lines.append(f"{len(items)} new item(s) detected, {len(kw_it)} with keyword matches.")
+        lines.append(f"Monitoring {total_active_creators} creators via {total_sources} sources across {len(all_keywords)} keywords.")
+        lines.append("")
+
+    # ─── Warnings ───
     if warnings:
-        lines.extend(["## Fetch Warnings", ""])
+        lines.extend(["## Warnings", ""])
         for warning in warnings:
             lines.append(f"- {warning}")
         lines.append("")
 
     if not items:
         lines.extend(["## No New Public Items", "", "No unseen items matched this run.", ""])
+        lines.append("---")
         return "\n".join(lines)
 
+    # ─── Keyword Signals ───
     keyword_items = [item for item in items if item.matched_keywords]
     if keyword_items:
-        lines.extend(["## Keyword Signals", ""])
+        lines.extend(["## Keyword Signals / 关键词信号", ""])
         for item in sorted(keyword_items, key=lambda x: x.published_at or x.fetched_at, reverse=True):
             matched = ", ".join(item.matched_keywords)
             lines.append(
@@ -543,11 +605,12 @@ def build_report(
             )
         lines.append("")
 
+    # ─── New Items ───
     grouped: dict[str, list[MonitorItem]] = {}
     for item in items:
         grouped.setdefault(item.creator, []).append(item)
 
-    lines.extend(["## New Items", ""])
+    lines.extend(["## New Items / 全部条目", ""])
     for creator in sorted(grouped):
         lines.append(f"### {creator}")
         for item in sorted(grouped[creator], key=lambda x: x.published_at or x.fetched_at, reverse=True):
@@ -560,6 +623,8 @@ def build_report(
                 lines.append(f"  - Summary: {item.summary}")
         lines.append("")
 
+    # ─── Footer separator for yesterday section ───
+    lines.append("---")
     return "\n".join(lines)
 
 
@@ -615,7 +680,8 @@ def send_email(report: str, config: dict[str, Any], report_path: Path) -> None:
     recipients = [username if r == username_env_key else r for r in recipients]
 
     msg = EmailMessage()
-    msg["Subject"] = email_cfg.get("subject", "Tech influencer daily monitor")
+    subject = email_cfg.get("subject", "科技博主日报 / Tech Creator Daily Monitor")
+    msg["Subject"] = subject
     msg["From"] = sender
     msg["To"] = ", ".join(recipients)
     msg.set_content(report)
