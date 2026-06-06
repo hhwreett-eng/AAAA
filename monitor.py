@@ -759,7 +759,10 @@ def run(config_path: Path, init_seen: bool = False) -> Path:
         report += "\n\n---\n\n## 昨日回顾\n\n" + prev_content
 
     save_as_docx(report, report_path)
-    send_email(report, config, report_path)
+    try:
+        send_email(report, config, report_path)
+    except Exception as exc:
+        warnings.append(f"email send failed: {exc}")
     return report_path
 
 
