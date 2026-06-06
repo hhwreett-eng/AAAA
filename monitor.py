@@ -684,7 +684,6 @@ def send_email(report: str, config: dict[str, Any], report_path: Path) -> None:
     msg["Subject"] = subject
     msg["From"] = sender
     msg["To"] = ", ".join(recipients)
-    msg.set_content(report)
     msg.add_attachment(
         report_path.read_bytes(),
         maintype="application",
