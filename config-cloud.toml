@@ -47,7 +47,7 @@ smtp_port = 587
 username_env = "SMTP_USERNAME"
 password_env = "SMTP_PASSWORD"
 from = "SMTP_USERNAME"
-to = ["SMTP_USERNAME", "372974665@qq.com", "1102548187@qq.com"]
+to = ["SMTP_USERNAME", "1102548187@qq.com", "wreett@hotmail.com"]
 subject = "US Tech Stock Creator Daily Monitor"
 
 [[creators]]
