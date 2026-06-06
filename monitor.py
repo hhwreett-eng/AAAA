@@ -601,12 +601,18 @@ def send_email(report: str, config: dict[str, Any], report_path: Path) -> None:
 
     host = email_cfg["smtp_host"]
     port = int(email_cfg.get("smtp_port", 587))
-    username = os.environ.get(email_cfg.get("username_env", "SMTP_USERNAME"), "")
+    username_env_key = email_cfg.get("username_env", "SMTP_USERNAME")
+    username = os.environ.get(username_env_key, "")
     password = os.environ.get(email_cfg.get("password_env", "SMTP_PASSWORD"), "")
+
     sender = email_cfg["from"]
+    if sender == username_env_key:
+        sender = username
+
     recipients = email_cfg["to"]
     if isinstance(recipients, str):
         recipients = [recipients]
+    recipients = [username if r == username_env_key else r for r in recipients]
 
     msg = EmailMessage()
     msg["Subject"] = email_cfg.get("subject", "Tech influencer daily monitor")
