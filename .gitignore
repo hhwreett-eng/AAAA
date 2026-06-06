@@ -1,0 +1,7 @@
+reports/
+!reports/*.docx
+state/
+!state/seen.json
+logs/
+*.tmp
+__pycache__/

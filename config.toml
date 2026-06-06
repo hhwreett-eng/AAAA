@@ -1,0 +1,294 @@
+[settings]
+report_title = "US Tech Stock Creator Daily Monitor"
+report_dir = "reports"
+state_dir = "state"
+lookback_hours = 72
+max_items_per_source = 25
+state_retention_days = 180
+pause_seconds_between_sources = 0.5
+include_items_without_keywords = true
+keywords = [
+  "NVIDIA",
+  "NVDA",
+  "Blackwell",
+  "Rubin",
+  "CUDA",
+  "GPU",
+  "AI infrastructure",
+  "hyperscaler",
+  "hyperscalers",
+  "CSP",
+  "cloud",
+  "AWS",
+  "Azure",
+  "Google Cloud",
+  "Oracle Cloud",
+  "CoreWeave",
+  "neocloud",
+  "data center",
+  "datacenter",
+  "capex",
+  "AMD",
+  "TSMC",
+  "ASML",
+  "Broadcom",
+  "AVGO",
+  "Marvell",
+  "MRVL",
+  "HBM",
+  "memory",
+  "networking"
+]
+
+[delivery.email]
+enabled = false
+smtp_host = "smtp.example.com"
+smtp_port = 587
+username_env = "SMTP_USERNAME"
+password_env = "SMTP_PASSWORD"
+from = "monitor@example.com"
+to = ["you@example.com"]
+subject = "Tech stock creator daily monitor"
+
+[[creators]]
+name = "SemiAnalysis / Dylan Patel"
+tags = ["semiconductors", "ai-infrastructure", "nvidia", "cloud"]
+
+[[creators.sources]]
+name = "SemiAnalysis Newsletter"
+type = "feed"
+url = "https://newsletter.semianalysis.com/feed"
+tags = ["newsletter"]
+
+[[creators.sources]]
+name = "SemiAnalysis Website"
+type = "feed"
+url = "https://semianalysis.com/feed/"
+tags = ["website"]
+
+[[creators.sources]]
+name = "SemiAnalysis Weekly Podcast"
+type = "feed"
+url = "https://anchor.fm/s/10fbee758/podcast/rss"
+tags = ["podcast"]
+
+[[creators]]
+name = "Beth Kindig / I/O Fund"
+tags = ["tech-stocks", "nvidia", "ai", "big-tech"]
+
+[[creators.sources]]
+name = "I/O Fund RSS"
+type = "feed"
+url = "https://io-fund.com/rss.xml"
+tags = ["website", "rss"]
+
+[[creators.sources]]
+name = "I/O Fund Home"
+type = "page"
+url = "https://io-fund.com/"
+tags = ["website"]
+
+[[creators.sources]]
+name = "I/O Fund Media Page"
+type = "page"
+url = "https://io-fund.com/media"
+tags = ["media"]
+
+[[creators.sources]]
+name = "I/O Fund YouTube"
+type = "feed"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC0OhiHAJHiLVg_wjP3A9O_A"
+tags = ["youtube"]
+
+[[creators]]
+name = "Doug O'Laughlin / Fabricated Knowledge"
+tags = ["semiconductors", "stocks", "nvidia", "amd"]
+
+[[creators.sources]]
+name = "Fabricated Knowledge"
+type = "feed"
+url = "https://www.fabricatedknowledge.com/feed"
+tags = ["newsletter"]
+
+[[creators]]
+name = "muji / HHHYPERGROWTH"
+tags = ["hypergrowth", "nvidia", "neoclouds", "hyperscalers"]
+
+[[creators.sources]]
+name = "HHHYPERGROWTH"
+type = "feed"
+url = "https://hhhypergrowth.com/rss/"
+tags = ["newsletter"]
+
+[[creators.sources]]
+name = "HHHYPERGROWTH Home"
+type = "page"
+url = "https://hhhypergrowth.com/"
+tags = ["website"]
+
+[[creators]]
+name = "Ben Thompson / Stratechery"
+tags = ["strategy", "big-tech", "cloud", "ai"]
+
+[[creators.sources]]
+name = "Stratechery"
+type = "feed"
+url = "https://stratechery.com/feed/"
+tags = ["newsletter"]
+
+[[creators.sources]]
+name = "Stratechery Cloud Topic"
+type = "page"
+url = "https://stratechery.com/topic/cloud-computing/"
+tags = ["cloud-topic"]
+
+[[creators]]
+name = "Jamin Ball / Clouded Judgement"
+tags = ["saas", "cloud", "software", "valuation"]
+
+[[creators.sources]]
+name = "Clouded Judgement"
+type = "feed"
+url = "https://cloudedjudgement.substack.com/feed"
+tags = ["newsletter"]
+
+[[creators]]
+name = "App Economy Insights"
+tags = ["tech-stocks", "software", "ai", "cloud"]
+
+[[creators.sources]]
+name = "App Economy Insights"
+type = "feed"
+url = "https://www.appeconomyinsights.com/feed"
+tags = ["newsletter"]
+
+[[creators]]
+name = "Software Stack Investing"
+tags = ["software", "cloud", "saas", "stocks"]
+
+[[creators.sources]]
+name = "Software Stack Investing"
+type = "feed"
+url = "https://softwarestackinvesting.com/feed/"
+tags = ["website"]
+
+[[creators]]
+name = "BG2 / Brad Gerstner + Bill Gurley"
+tags = ["tech-markets", "ai", "cloud", "capex"]
+
+[[creators.sources]]
+name = "BG2 Podcast RSS"
+type = "feed"
+url = "https://anchor.fm/s/f06c2370/podcast/rss"
+tags = ["podcast"]
+
+[[creators.sources]]
+name = "BG2 YouTube"
+type = "feed"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-yRDvpR99LUc5l7i7jLzew"
+tags = ["youtube"]
+
+[[creators.sources]]
+name = "BG2 Website"
+type = "page"
+url = "https://www.bg2pod.com/"
+tags = ["podcast"]
+
+[[creators]]
+name = "The Six Five / Patrick Moorhead + Daniel Newman"
+tags = ["enterprise-tech", "ai", "cloud", "nvidia"]
+
+[[creators.sources]]
+name = "Six Five Podcast RSS"
+type = "feed"
+url = "https://sixfive.libsyn.com/rss"
+tags = ["podcast"]
+
+[[creators.sources]]
+name = "Six Five YouTube"
+type = "feed"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC7-rtz96bYgd2m4AhKtZFQw"
+tags = ["youtube"]
+
+[[creators.sources]]
+name = "Moor Insights YouTube"
+type = "feed"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC8fY_kIR5AqTmafpAzOjQ2g"
+tags = ["youtube", "moor-insights"]
+
+[[creators.sources]]
+name = "Six Five Podcast Episodes"
+type = "page"
+url = "https://www.sixfivemedia.com/podcast-episodes"
+tags = ["podcast"]
+
+[[creators]]
+name = "Chip Stock Investor"
+tags = ["semiconductors", "stocks", "nvidia", "amd"]
+
+[[creators.sources]]
+name = "Chip Stock Investor Website"
+type = "feed"
+url = "https://chipstockinvestor.com/feed/"
+tags = ["website"]
+
+[[creators.sources]]
+name = "Chip Stock Investor Podcast"
+type = "feed"
+url = "https://anchor.fm/s/e2cacf78/podcast/rss"
+tags = ["podcast"]
+
+[[creators.sources]]
+name = "Chip Stock Investor YouTube"
+type = "feed"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC3aD-gfmHV_MhMmcwyIu1wA"
+tags = ["youtube"]
+
+[[creators]]
+name = "Ticker Symbol: YOU"
+tags = ["youtube", "stocks", "ai", "semiconductors"]
+
+[[creators.sources]]
+name = "Ticker Symbol: YOU YouTube"
+type = "feed"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC7kCeZ53sli_9XwuQeFxLqw"
+tags = ["youtube"]
+
+[[creators.sources]]
+name = "Ticker Symbol: YOU Podcast"
+type = "feed"
+url = "https://rss.buzzsprout.com/1805490.rss"
+tags = ["podcast"]
+
+[[creators]]
+name = "Jose Najarro Stocks"
+tags = ["youtube", "semiconductors", "stocks"]
+
+[[creators.sources]]
+name = "Jose Najarro Stocks YouTube"
+type = "feed"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC5cEHfCr6WOE1R1zcohd1IA"
+tags = ["youtube"]
+
+[[creators]]
+name = "Serenity / @aleabgitoreddit"
+tags = ["x", "semiconductors", "ai-infrastructure", "photonics", "supply-chain"]
+
+[[creators.sources]]
+name = "Serenity Tweet Archive (GitHub)"
+type = "page"
+url = "https://raw.githubusercontent.com/yan-labs/serenity-aleabitoreddit/main/data/aleabitoreddit_tweets.json"
+tags = ["tweet-archive"]
+
+[[creators]]
+name = "Elon Musk / @elonmusk"
+tags = ["x", "tesla", "spacex", "ai", "ev", "starlink"]
+
+[[creators.sources]]
+name = "Elon Musk X API"
+type = "x_api"
+handle = "elonmusk"
+bearer_token_env = "X_BEARER_TOKEN"
+max_results = 20
+tags = ["x", "social"]
+fallback = { type = "feed", url = "https://nitter.net/elonmusk/rss" }

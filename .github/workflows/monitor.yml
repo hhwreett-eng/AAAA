@@ -1,0 +1,38 @@
+name: Tech Stock Daily Monitor
+
+on:
+  schedule:
+    # 每天北京时间 6:00 = UTC 22:00（前一天）
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install python-docx
+
+      - name: Run monitor
+        env:
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: python monitor.py --config config-cloud.toml
+
+      - name: Commit state
+        if: always()
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update seen state [skip ci]"
+          file_pattern: "state/seen.json reports/*.docx"
